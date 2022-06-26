@@ -1,0 +1,16 @@
+{
+    "name": "dell14/sgidoc",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dell14\\Sgidoc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Odinilson Gomes",
+            "email": "odinilsongomes4@gmail.com"
+        }
+    ],
+    "require": {}
+}

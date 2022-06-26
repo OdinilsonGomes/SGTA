@@ -1,0 +1,100 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13/ago/2018, 16:19:49
+    Author     : Odnilson
+*/
+
+.form-control{
+    margin-bottom: 2%;
+}
+fieldset input{
+    margin-left:auto;
+    margin-right:auto;
+}
+.botoess{
+    background:#FFF;
+    border:1px solid rgba(48, 100, 200, 0.3);
+    box-shadow: 0px 0px 5px rgba(48, 100, 200, 0.3);
+    color:#006;
+    height:35px;
+}
+
+.botoess:hover{
+    border:1px solid rgba(48, 100, 200, 0.9);
+    background:rgba(48, 100, 200, 0.2);
+}
+.fechar{
+    float:right ;
+    width:3%;
+    font-size:28px;
+    cursor:pointer;
+    text-align:center;
+    margin-top:-1%;
+    border-radius:2px;
+    box-shadow: 0px 0px 5px rgba(48, 100, 200, 0.2);
+    background: rgba(48, 100, 200, 0.05);
+
+}
+#formularios {
+    height:0.1%; 
+    width:0.5%;
+}
+#formularios .spann{
+    display: none;
+}
+.spann #form{
+    display:block;
+    background: #FFF;
+    height:100%;
+    margin-top:-2%; 
+    margin-bottom:-50px;
+}
+#form .validateTips{
+    color:red;
+    width: 100%;
+    text-align:center;
+    margin:15px auto;
+    background:rgba(48, 100, 200, 0.15);
+}
+#form .TituloForm{
+    color:rgba(48, 100, 220, 1);
+    font-size:24px;
+    text-align:center;
+    margin-top:30px;
+    width: 99.9%;
+}
+#form .content-Form{
+    width: 90%; margin-left: 5%;
+}
+.content-Form fieldset{
+    width: 40%; 
+    float: left;
+    margin: 1% 1% 0 3%;
+    
+}
+.content-Form legend{
+    text-align: left;
+    background-color:#428bca;
+    color:#fff;
+    margin-bottom: 2%;
+    border:0px;
+}
+.content-Form input{
+    width: 100%;
+}
+.content-Form .btn-from{
+    border-top: thin solid #6CC;
+    float: left; 
+    margin: 1% 0 0 3%;
+    width: 90%; 
+    padding-top: 1%;
+    padding-bottom:-500px;
+}
+.btn-from .btn-fechar{
+    margin: 0 1% 0 70%;
+    padding-top: 0.2%;
+}
