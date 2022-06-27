@@ -160,7 +160,7 @@ function exit() {
         var r = JSON.parse(data);
         if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
           tips.html("Sair com sucesso, Adeus!");
-         // location.reload();
+          location.reload();
         } else {
           updateTips(tips, r.result);
         }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2022 at 01:05 PM
+-- Generation Time: Jun 27, 2022 at 02:55 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -202,26 +202,6 @@ CREATE TABLE `aluno` (
   `data_reg` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `aluno`
---
-
-INSERT INTO `aluno` (`id`, `nome`, `email`, `data_nasc`, `id_turma`, `id_utilizador`, `data_reg`) VALUES
-(5, 'Odinilson', 'odinilson@gmail', '1994-09-20', 5, 1, '2022-06-22 15:49:40'),
-(7, 'Vania', 'vania@gmail.com', '1999-02-02', 7, 1, '2022-06-23 15:28:05'),
-(9, 'Vedilson', 'vedilson@', '1998-12-10', 3, 1, '2022-06-24 13:26:54'),
-(10, 'teste1', 'asdasd', '2022-06-09', 11, 1, '2022-06-25 19:08:54'),
-(11, 'Teste2', 'sdfd', '2022-06-23', 7, 1, '2022-06-25 19:09:06'),
-(12, 'teste5', 'erer', '2022-06-08', 3, 1, '2022-06-25 19:09:22'),
-(13, 'Teste6', 'fsdsd', '2022-06-01', 3, 1, '2022-06-25 19:09:34'),
-(14, 'Teste7', 'edwasedf', '2022-06-17', 3, 1, '2022-06-25 19:10:02'),
-(15, 'Teste9', 'qda', '2022-06-25', 9, 1, '2022-06-25 19:10:30'),
-(16, 'Teste 10', 'sdsad', '2022-06-23', 3, 1, '2022-06-25 19:11:06'),
-(17, 'Teste3', 'dfsdxa', '2022-06-10', 5, 1, '2022-06-25 19:11:34'),
-(18, 'Teste4', 'dcs', '2022-06-10', 11, 1, '2022-06-25 19:11:47'),
-(19, 'sdc', 'sdc', '2022-06-09', 11, 1, '2022-06-26 10:24:08'),
-(22, 'TESRRRTTTT GGG', 'eeww@ddd', '2022-06-13', 9, 1, '2022-06-26 13:19:54');
-
 -- --------------------------------------------------------
 
 --
@@ -238,29 +218,6 @@ CREATE TABLE `transferencia` (
   `data_reg` datetime NOT NULL DEFAULT current_timestamp(),
   `id_utilizador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `transferencia`
---
-
-INSERT INTO `transferencia` (`id`, `data`, `motivo`, `id_aluno`, `id_turma_anterior`, `id_turma_destino`, `data_reg`, `id_utilizador`) VALUES
-(7, '2022-06-23', 'teste ', 5, 5, 5, '2022-06-23 11:38:47', 1),
-(9, '2022-06-24', 'teste', 5, 3, 3, '2022-06-24 15:57:21', 1),
-(10, '2022-06-25', 'teste', 9, 7, 9, '2022-06-24 15:59:10', 1),
-(11, '2022-06-24', 'teste', 7, 3, 7, '2022-06-24 16:00:38', 1),
-(12, '2022-06-24', 'dsdas', 5, 5, 3, '2022-06-24 16:02:06', 1),
-(14, '0000-00-00', '', 5, 5, 3, '2022-06-25 19:12:36', 1),
-(15, '0000-00-00', '', 12, 7, 3, '2022-06-25 19:12:41', 1),
-(16, '0000-00-00', '', 14, 7, 3, '2022-06-25 19:12:44', 1),
-(18, '0000-00-00', '', 18, 9, 3, '2022-06-25 19:12:50', 1),
-(20, '0000-00-00', '', 9, 9, 3, '2022-06-25 19:13:06', 1),
-(21, '0000-00-00', '', 5, 3, 5, '2022-06-25 19:16:10', 1),
-(23, '0000-00-00', '', 10, 3, 7, '2022-06-25 19:16:20', 1),
-(26, '0000-00-00', '', 18, 3, 5, '2022-06-25 19:16:38', 1),
-(27, '0000-00-00', '', 5, 5, 3, '2022-06-25 19:16:55', 1),
-(29, '2022-06-28', 'werd', 10, 7, 11, '2022-06-25 19:17:01', 1),
-(32, '2022-06-07', 'wqedwa', 18, 5, 11, '2022-06-25 19:17:10', 1),
-(35, '2022-06-09', 'wef', 5, 3, 5, '2022-06-26 15:08:14', 1);
 
 --
 -- Triggers `transferencia`
@@ -292,18 +249,6 @@ CREATE TABLE `turma` (
   `id_utilizador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `turma`
---
-
-INSERT INTO `turma` (`id`, `nome`, `serie`, `data_reg`, `id_utilizador`) VALUES
-(3, 'B', '001D', '2022-06-22 11:03:57', 1),
-(5, 'D', '452DDD', '2022-06-22 23:12:18', 1),
-(7, 'E1', '8E', '2022-06-22 23:31:01', 1),
-(9, 'F', 'F11', '2022-06-24 00:59:48', 1),
-(11, 'A1', '0A0', '2022-06-25 22:05:59', 1),
-(18, 'A11', 'E', '2022-06-26 13:42:50', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -321,8 +266,7 @@ CREATE TABLE `utilizador` (
 --
 
 INSERT INTO `utilizador` (`id`, `usuario`, `senha`) VALUES
-(1, 'odinilson', '123'),
-(5, 'Vania2', 'adcd7048512e64b48da55b027577886ee5a36350');
+(1, 'odinilson', 'adcd7048512e64b48da55b027577886ee5a36350');
 
 -- --------------------------------------------------------
 
@@ -423,19 +367,19 @@ ALTER TABLE `utilizador`
 -- AUTO_INCREMENT for table `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transferencia`
 --
 ALTER TABLE `transferencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `turma`
 --
 ALTER TABLE `turma`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `utilizador`
