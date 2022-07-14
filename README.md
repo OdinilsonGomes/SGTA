@@ -2,6 +2,10 @@
 https://github.com/OdinilsonGomes/SGTA.git
 ---------------  API ------------------------
 <h2>RO1 - Cadastro de turmas</h2>
-    http://localhost/sgta/servicos/cms.php?action=insertTurma
+ URL do sistema: http://www.sgta.tecnon.st/
+ usuario: odinilson
+ senha: 123
+ API DOC: https://documenter.getpostman.com/view/12219150/UzQuPknh
+ 
 
 
