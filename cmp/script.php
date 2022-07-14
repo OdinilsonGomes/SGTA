@@ -25,7 +25,7 @@
 <script src="plugins/tagsinput/jquery.tagsinput.min.js"></script>
 	<!--script src="assets/plugins/pace/pace.js"></script-->
 <script src="plugins/autosize/jquery.autosize.min.js"></script>
-<script src="js/formsInit.js"> </script>
+<!--script-- src="js/formsInit.js"> </!--script-->
 
 
 	

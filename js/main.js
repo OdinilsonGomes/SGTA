@@ -154,15 +154,16 @@ function changeMyInfoAsync() {
 function exit() {
   var tips = $("#exit_state");
   tips.html("<img src='img/loader.gif' />");
-  $.post("servicos/cms.php?action=logOut", {}, (data, status) => {
+  $.post("api/Utilizador/logout", {}, (data, status) => {
     if (status == "success") {
       try {
-        var r = JSON.parse(data);
-        if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
+        console.log(data.status);
+        
+        if (data.status==="success") {
           tips.html("Sair com sucesso, Adeus!");
           location.reload();
         } else {
-          updateTips(tips, r.result);
+          updateTips(tips, data.dados);
         }
       } catch (error) {
         updateTips(tips, error);

@@ -4,17 +4,17 @@
   $menu_aluno       = "";
   $menu_transferencia   = "";
   $menu_utilizador = "";
-  $pagina = basename($_SERVER['PHP_SELF']);
+  $pagina = isset($_REQUEST['url'])? $_REQUEST['url'] : 'main';
   switch($pagina) {
-    case "main.php":$menu_main="active";
+    case "main":$menu_main="active";
     break;
-    case "turma.php":$menu_turma="active";
+    case "turma":$menu_turma="active";
     break;
-    case "aluno.php":$menu_aluno="active";
+    case "aluno":$menu_aluno="active";
     break;
-	case "transferencia.php":$menu_transferencia="active";
+	case "transferencia":$menu_transferencia="active";
     break;
-    case "utilizador.php":$menu_utilizador="active";
+    case "utilizador":$menu_utilizador="active";
     break;
   }
 ?>
@@ -23,16 +23,16 @@
       <nav class="my-2 my-md-0 mr-md-3">
         <ul class="nav nav-pills">
           <li class="nav-item">
-            <a class="nav-link <?php echo $menu_main ?>" href="main.php">Inicio</a>
+            <a class="nav-link <?php echo $menu_main ?>" href="main">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo $menu_turma ?>" href="turma.php">Turma</a>
+            <a class="nav-link <?php echo $menu_turma ?>" href="turma">Turma</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo $menu_aluno ?>" href="aluno.php">Aluno</a>
+            <a class="nav-link <?php echo $menu_aluno ?>" href="aluno">Aluno</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo $menu_transferencia ?>" href="transferencia.php">Transferencia</a>
+            <a class="nav-link <?php echo $menu_transferencia ?>" href="transferencia">Transferencia</a>
           </li>
           <li class="nav-item">
               <a href="#" class="nav-link" data-toggle="modal" data-target="#logout_modal">

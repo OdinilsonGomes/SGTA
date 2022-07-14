@@ -1,6 +1,11 @@
 var username_login = $("#username_login"),
     password_login = $("#password_login");
 $(() => {
+    
+    $("#btn-login").on('click', function (e) {
+
+        login();
+     });
     /* This function will update the text in the tips div the the text and the css */
     function updateTips(tips, text) {
         tips
@@ -116,36 +121,34 @@ function login(){
 }
 /* This is a async function that call the API to do the login */
 function loginAsync() {
+    URL ="api/Utilizador/login";
     var _username = $("#username_login").val(),
         _password = $("#password_login").val(),
         tips = $("#login_state");
-    tips.addClass("alert-light");
-    tips.html("<img src='img/loader.gif' />");
-    $.post("servicos/cms.php?action=logIn",
-    {
-        usuario : _username, 
-        senha : _password
-    },
-    (data, status) => {
-        if(status == "success"){
-            try {
-                var r = JSON.parse(data),
-                    result = parseInt(r.result);
-                if(result != NaN && result == 1){
-                    tips.html("Login com sucesso!");
-                    window.location.href = "main.php";
-                }
-                else{
-                    updateTips(tips, r.result);
-                }
-            } catch (error) {
-                updateTips(tips, error);
-            }
-        }
-        else{
-            updateTips(tips, data);
-        }
-    });
+        tips.addClass("alert-light");
+        tips.html("<img src='img/loader.gif'/>");
+
+    var ItemJSON=JSON.stringify({
+        usuario: _username,
+        senha: _password
+    });;
+   
+    var xmlhttp=new XMLHttpRequest();
+    //xmlhttp.onreadystatechange=callbackFunction(xmlhttp);
+    xmlhttp.open("POST",URL, false);
+    xmlhttp.setRequestHeader("Content-Type","application/json");
+    xmlhttp.send(ItemJSON);
+    var result=xmlhttp.responseText;
+    console.log(result);
+    var r = JSON.parse(result);
+    
+    if(r.status==="success"){
+        tips.html("Login com sucesso!");
+        window.location.href = "main";
+    }else{
+        updateTips(tips, r.dados);
+    }
+   
 }
 function recoverShow(){
     /*$(".login-card-body").hide(250); 

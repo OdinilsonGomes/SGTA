@@ -17,15 +17,7 @@
                        <label><b>Turma Destino:</b></label>
 					   <select id="turma_tranferir_insert" class="form-control"></select>
                     </div>
-                    <div class="form-group">
-					<label><b>Data:</b></label>
-                        <input id="data_transferir" type="date" class="form-control" placeholder="data"/>
-                    </div>
-                    <div class="form-group">
-					<label><b>Motivo:</b></label>
-                        <input id="motivo_transferir" type="text" class="form-control" placeholder="Motivo"  maxlength="150"/>
-                    </div>
-					
+                    
                     <div id="transferir_state" class="" role="alert">
                     </div>
                 </form>
@@ -56,16 +48,7 @@
 						<input id="id_tranferirencia_update" type="hidden" class="form-control" placeholder="Id Aluno"/>
                        <label><b>Turma Destino:</b></label>
 					   <select id="turma_tranferir_update" class="form-control"></select>
-                    </div>
-                    <div class="form-group">
-					<label><b>Data:</b></label>
-                        <input id="data_transferir_update" type="date" class="form-control" placeholder="data"/>
-                    </div>
-                    <div class="form-group">
-					<label><b>Motivo:</b></label>
-                        <input id="motivo_transferir_update" type="text" class="form-control" placeholder="Motivo"  maxlength="150"/>
-                    </div>
-					
+                    </div>	
                     <div id="update_state" class="" role="alert">
                     </div>
                 </form>

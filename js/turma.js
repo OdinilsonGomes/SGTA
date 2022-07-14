@@ -1,32 +1,6 @@
 var data_table;
 $(() => {
-  data_table = $("#dataTable").DataTable({
-    processing: true,
-    serverSide: false,
-	searching:false,
-	//paging:false,
-    order: [],
-    ajax: {
-      url: "servicos/cms.php?action=fetchAllTurma",
-      type: "POST",
-      data: {},
-    },
-    oLanguage: {
-      sLengthMenu: "Mostrar _MENU_ Linhas por pagina",
-      sZeroRecords: "Nenhum Registro Encontrado!",
-      sInfo: "Mostrar _START_ de _END_ de _TOTAL_ linhas",
-      sInfoEmpty: "Mostrando 0 de 0 de 0 linhas",
-      sInfoFiltered: "(Filtro de _MAX_ total linhas)",
-      sSearch: "Procurar <i class='fa fa-search'></i>",
-      oPaginate: {
-        sFirst: "Primeiro", // This is the link to the first page
-        sPrevious: "<i class='fas fa-arrow-circle-left'></i> Anterior", // This is the link to the previous page
-        sNext: "Proximo <i class='fas fa-arrow-circle-right'></i>", // This is the link to the next page
-        sLast: "Ultimo", // This is the link to the last page
-      },
-    },
-    columnDefs: [{ orderable: false, targets: [0,0,2,0] }],
-  });
+  fetchAllTurma();
   $('#remove_modal, #update_modal, #insert_modal').on('hide.bs.modal', function (e) {
     clear_form();
   })
@@ -86,77 +60,80 @@ function checkRegexp(tips, o, regexp, n) {
     return true;
   }
 }
-
+function fetchAllTurma(){
+  URL ="api/Turma";  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var result=xmlhttp.responseText;
+  var result_json = JSON.parse(result);
+  FillBodyTable(result_json);
+}
 function fetchAllTurmaByNome(){
-
-	data_table.destroy();
-	data_table = $("#dataTable").DataTable({
-    processing: true,
-    serverSide: false,
-	searching:false,
-    order: [],
-    ajax: {
-      url: "servicos/cms.php?action=fetchAllTurmaByNome",
-      type: "POST",
-      data: {nome:$("#nome_turma_filtro").val()},
-    },
-    oLanguage: {
-      sLengthMenu: "Mostrar _MENU_ Linhas por pagina",
-      sZeroRecords: "Nenhum Registro Encontrado!",
-      sInfo: "Mostrar _START_ de _END_ de _TOTAL_ linhas",
-      sInfoEmpty: "Mostrando 0 de 0 de 0 linhas",
-      sInfoFiltered: "(Filtro de _MAX_ total linhas)",
-      sSearch: "Procurar <i class='fa fa-search'></i>",
-      oPaginate: {
-        sFirst: "Primeiro", // This is the link to the first page
-        sPrevious: "<i class='fas fa-arrow-circle-left'></i> Anterior", // This is the link to the previous page
-        sNext: "Proximo <i class='fas fa-arrow-circle-right'></i>", // This is the link to the next page
-        sLast: "Ultimo", // This is the link to the last page
-      },
-    },
-    columnDefs: [{ orderable: false, targets: [0,0,2,0] }],
-  });
+  URL ="api/Turma/nome/"+$("#nome_turma_filtro").val();  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var result=xmlhttp.responseText;
+  var r = JSON.parse(result);
+  // Send to a global display 
+  FillBodyTable(r);
   $("#nome_turma_filtro").focus();
   $("#serie_turma_filtro").val("")
 }
 
 function fetchAllTurmaBySerie(){
+  URL ="api/Turma/serie/"+$("#serie_turma_filtro").val();  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var result=xmlhttp.responseText;
+  var r = JSON.parse(result);
+  // Send to a global display 
+  FillBodyTable(r);
 
-	data_table.destroy();
-	data_table = $("#dataTable").DataTable({
-    processing: true,
-    serverSide: false,
-	searching:false,
-    order: [],
-    ajax: {
-      url: "servicos/cms.php?action=fetchAllTurmaBySerie",
-      type: "POST",
-      data: {serie:$("#serie_turma_filtro").val()},
-    },
-    oLanguage: {
-      sLengthMenu: "Mostrar _MENU_ Linhas por pagina",
-      sZeroRecords: "Nenhum Registro Encontrado!",
-      sInfo: "Mostrar _START_ de _END_ de _TOTAL_ linhas",
-      sInfoEmpty: "Mostrando 0 de 0 de 0 linhas",
-      sInfoFiltered: "(Filtro de _MAX_ total linhas)",
-      sSearch: "Procurar <i class='fa fa-search'></i>",
-      oPaginate: {
-        sFirst: "Primeiro", // This is the link to the first page
-        sPrevious: "<i class='fas fa-arrow-circle-left'></i> Anterior", // This is the link to the previous page
-        sNext: "Proximo <i class='fas fa-arrow-circle-right'></i>", // This is the link to the next page
-        sLast: "Ultimo", // This is the link to the last page
-      },
-    },
-    columnDefs: [{ orderable: false, targets: [0,0,2,0] }],
-  });
   $("#serie_turma_filtro").focus();
   $("#nome_turma_filtro").val("")
 }
-
+function FillBodyTable(data_json){
+  var html="";
+  if(data_json.status==="success"){
+    for(var i=0;i<data_json.dados.length;i++){
+      var turma=data_json.dados[i];
+     // console.log(turma);
+      html+="<tr>"+
+              "<td>"+data_json.dados[i]['nome']+"</td>"+
+              "<td>"+data_json.dados[i]['serie']+"</td>"+
+              "<td><div class='span12' style='text-align:center'><a href='javascript:fetchAllAlunoByTurma("+JSON.stringify(turma)+")' class='btn btn-warning btn-sm'>Ver alunos</a></div></td>"+
+              "<td><div class='span12' style='text-align:center'><a href='javascript:update("+JSON.stringify(turma)+")' class='btn btn-info'><i class='fas fa-edit'></i></a></div></td>"+
+              "<td><div class='span12' style='text-align:center'><a href='javascript:remove("+data_json.dados[i]['id']+")' class='btn btn-danger'><i class='far fa-trash-alt'></i></a></div></td>"+
+              "</tr>";
+    }
+  }else{
+    html=data_json.dados;
+  }
+  $("#dataTableBody").html(html);
+}
 function insert() {
-  var nome = $("#nome_turma"),
-	  serie = $("#serie_turma"),
-    tips = $("#insert_state");
+  
+  URL ="api/Turma"  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("POST",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  var nome= $("#nome_turma"),
+  serie = $("#serie_turma");
+  var ItemJSON=JSON.stringify({
+    nome    :  nome.val(),
+    serie  :   serie.val()
+  });
+  xmlhttp.send(ItemJSON);
+  var result=xmlhttp.responseText;
+  var tips = $("#insert_state");
+  tips.addClass("alert-light");
+  tips.html("<img src='img/loader.gif' />");
   /* Adicionar outros parametros e verificar */
   tips.removeClass("alert-danger").addClass("alert-light");
   if (nome.val() == "") {
@@ -166,94 +143,63 @@ function insert() {
     updateTips(tips, "Por favor preencha a Serie");
     serie.focus();
   } else {
-    
-      var formData = new FormData();
-	  formData.append("nome", nome.val());
-	  formData.append("serie", serie.val());
-	  tips.addClass("alert-light");
-	  tips.html("<img src='img/loader.gif' />");
-	  $.ajax({
-		type: "POST",
-		url: "servicos/cms.php?action=insertTurma",
-		data: formData,
-		contentType: false,
-		processData: false,
-		cache: false,
-		success: function (data) {
-		  try {
-			var r = JSON.parse(data);
-			if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-			  tips.html("Registado com sucesso!");
+    try{
+      var r = JSON.parse(result);
+      if(r.status==="success"){
+        tips.html("Registado com sucesso!");
         fechar_modal("insert_modal");
-			  data_table.ajax.reload();
-			} else {
-			  updateTips(tips, r.result);
-			}
-		  } catch (error) {
-			updateTips(tips, error);
-		  }
-		},
-	  });
-    
+        fetchAllTurma();
+      }else{
+        updateTips(tips, r.dados);
+    }
+    }catch (error) {
+      updateTips(tips, error);
+    }
+
   }
 }
 
 
-function update(id) {
-  var formData = new FormData();
-  formData.append("id", id);
-  $.ajax({
-    type: "POST",
-    url: "servicos/cms.php?action=fetchAllTurmaById",
-    data: formData,
-    contentType: false,
-    processData: false,
-    cache: false,
-    success: function (result) {
-      try {
-        var turma = JSON.parse(result),
-          tips = $("#update_state");
-        $("#id_to_update").val(turma.id);
-        $("#nome_turmaU").val(turma.nome);
-        tips.addClass("alert-light");
-        $("#update_modal").modal("show");
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
+function update(turma) {
+  try {
+    var tips = $("#update_state");
+    $("#id_to_update").val(turma.id);
+    $("#nome_turmaU").val(turma.nome);
+    tips.addClass("alert-light");
+    $("#update_modal").modal("show");
+  } catch (error) {
+    console.log(error);
+  }
 }
 function updateAsync() {
-  var id = $("#id_to_update").val(),
-    nome = $("#nome_turmaU").val(),
-	tips = $("#update_state");
-  var formData = new FormData();
-  formData.append("id", id);
-  formData.append("nome", nome);
+
+  URL ="api/Turma"  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("PATCH",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  var ItemJSON=JSON.stringify({
+    id    :   $("#id_to_update").val(),
+    nome  :   $("#nome_turmaU").val()
+  });
+  xmlhttp.send(ItemJSON);
+  var result=xmlhttp.responseText;
+ 
+  var tips = $("#update_state");
   tips.addClass("alert-light");
   tips.html("<img src='img/loader.gif' />");
-  $.ajax({
-    type: "POST",
-    url: "servicos/cms.php?action=updateTurma",
-    data: formData,
-    contentType: false,
-    processData: false,
-    cache: false,
-    success: function (data) {
-      try {
-        var r = JSON.parse(data);
-        if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-          tips.html("Alterado com sucesso!");
-          fechar_modal("update_modal");
-          data_table.ajax.reload();
-        } else {
-          updateTips(tips, r.result);
-        }
-      } catch (error) {
-        updateTips(tips, error);
-      }
-    },
-  });
+  try{
+    var r = JSON.parse(result);
+    if(r.status==="success"){
+      tips.html("Alterado com sucesso!");
+      fechar_modal("update_modal");
+      fetchAllTurma();
+    }else{
+      updateTips(tips, r.dados);
+  }
+  }catch (error) {
+    updateTips(tips, error);
+  }
+
 }
 function remove(id) {
   var tips = $("#remove_state");
@@ -262,52 +208,57 @@ function remove(id) {
   $("#remove_modal").modal("show");
 }
 function removeAsync() {
+  URL ="api/Turma"; 
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("DELETE",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  var ItemJSON=JSON.stringify({
+    id    :   $("#id_to_remove").val()
+    });
+    
+  xmlhttp.send(ItemJSON);
+  var result=xmlhttp.responseText;
+
   var tips = $("#remove_state");
   tips.addClass("alert-light");
   tips.html("<img src='img/loader.gif' />");
-  $.post(
-    "servicos/cms.php?action=removeTurma",
-    {
-      id: $("#id_to_remove").val(),
-    },
-    (data, status) => {
-      if (status == "success") {
-        try {
-          var r = JSON.parse(data);
-          if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-            tips.html("Removido com sucesso!");
-            fechar_modal("remove_modal");
-            data_table.ajax.reload();
-          } else {
-            updateTips(tips, r.result);
-          }
-        } catch (error) {
-          updateTips(tips, error);
-        }
-      } else {
-        updateTips(tips, data);
-      }
-    }
-  );
+  try{
+    
+    var r = JSON.parse(result);
+   
+    if(r.status==="success"){
+      tips.html("Removido com sucesso!");
+      fechar_modal("remove_modal");
+      fetchAllTurma();
+    }else{
+      updateTips(tips, r.dados);
+  }
+  }catch (error) {
+    updateTips(tips, error);
+  }
 }
 
 function fetchAllAlunoByTurma(turma) {
-  $.post(
-    "servicos/cms.php?action=fetchAllAlunoByTurma",
-    {id_turma:turma.id},
-    (data, status) => {
-      if (status == "success") {
+
+  URL ="api/Turma/"+turma.id+"/aluno";  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var result=xmlhttp.responseText;
+  var r = JSON.parse(result);
+  var itens = r.dados,html = "",ordem=0;
+   if (r.status == "success") {
         try {
-          var r = JSON.parse(data),
-            itens = r.data,html = "",ordem=0;
+
+          console.log(itens);
           $.each(itens, (i, item) => {
             html += "<tr><b> Turma </b></tr><tr>" 
 						+"<td>"+ (++ordem) +"</td>"
-						+"<td>"+item[0]+"</td>"
-						+"<td>"+item[1]+"</td>"
-						+"<td>"+item[2]+"</td>"
+						+"<td>"+item['nome']+"</td>"
+						+"<td>"+item['data_nasc']+"</td>"
+						+"<td>"+item['email']+"</td>"
 					  +"</tr>";
-					
           });
           // attribuindo o Id da turma a modal
           $("#id_turma_aluno_filtro").val(turma.id);
@@ -315,50 +266,57 @@ function fetchAllAlunoByTurma(turma) {
           $("#nome_aluno_filtro").val("");
           // Atribuindo um titulo a modal
           $("#aluno_modal_titulo").html("Lista dos Alunos da Turma: "+turma.nome);
-          // preenchendo a tabela
-          $("#bodyDataTableAluno").html(html);
-		  $("#ver_aluno_modal").modal("show");
+          
+		  
         } catch (error) {
+          html=error;
           console.log(error);
         }
       } else {
-        console.log(data);
+        console.log(r.dados);
+        html=r.dados;
       }
-    }
-  );
+    // preenchendo a tabela
+      $("#bodyDataTableAluno").html(html);
+      $("#ver_aluno_modal").modal("show");
 }
 
 function fetchAlunoByNome() {
-  $.post(
-    "servicos/cms.php?action=fetchAlunoByNome",
-    {
-      id_turma:$("#id_turma_aluno_filtro").val(),
-      nome: $("#nome_aluno_filtro").val()
-      },
-    (data, status) => {
-      if (status == "success") {
+var data ={
+  id_turma:   $("#id_turma_aluno_filtro").val(),
+    nome  :   $("#nome_aluno_filtro").val()
+}
+  URL ="api/Turma/"+data.id_turma+"/aluno/"+data.nome;  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var result=xmlhttp.responseText;
+  var r = JSON.parse(result);
+  var itens = r.dados,html = "",ordem=0;
+   if (r.status == "success") {
         try {
-          var r = JSON.parse(data),
-            itens = r.data,html = "",ordem=0;
+          console.log(itens);
           $.each(itens, (i, item) => {
             html += "<tr><b> Turma </b></tr><tr>" 
 						+"<td>"+ (++ordem) +"</td>"
-						+"<td>"+item[0]+"</td>"
-						+"<td>"+item[1]+"</td>"
-						+"<td>"+item[2]+"</td>"
-					+"</tr>";
-					
+						+"<td>"+item['nome']+"</td>"
+						+"<td>"+item['data_nasc']+"</td>"
+						+"<td>"+item['email']+"</td>"
+					  +"</tr>";
           });
-		 
-          $("#bodyDataTableAluno").html(html);
+         
         } catch (error) {
+          html=error;
           console.log(error);
         }
       } else {
-        console.log(data);
+        console.log(r.dados);
+        html=r.dados;
       }
-    }
-  );
+// preenchendo a tabela
+$("#bodyDataTableAluno").html(html);
+
 }
 // Reset all input form
 function clear_form() {

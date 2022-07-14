@@ -42,7 +42,7 @@
                         </tr>
                           
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="dataTableBody"></tbody>
                 </table>
             </div>
           </div>
@@ -60,9 +60,7 @@
     <?php
       require_once("cmp/script.php");
     ?>
-    <!-- Summernote -->
-    <script src="plugins/summernote/summernote-bs4.min.js"></script>
-    <script src="js/summernote-config.js"></script>
+
     <script src="js/aluno.js"></script>
   </body>
 </html>

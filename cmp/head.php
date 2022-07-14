@@ -3,8 +3,6 @@
 <meta name="description" content="Sistema de Gerenciamento de Turmas e Alunos">
 <meta name="author" content="Desafio pratico programador Full Stack">
 
-<link rel="icon" type="image/png" href="../img/global/favicon.ico"/>
-
 <!-- Bootstrap CSS 4 -->
 <!-- link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"-->
 <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
@@ -15,4 +13,5 @@
 <!-- Custom styles for this template -->
 <link href="osc.css" rel="stylesheet">
 <!-- Bootstrap Theme CSS 3 -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<!--link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" -->
+

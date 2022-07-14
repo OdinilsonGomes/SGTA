@@ -6,5 +6,16 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Dell14\\Sgidoc\\' => array($baseDir . '/src'),
+    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
+    'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'Laminas\\Validator\\' => array($vendorDir . '/laminas/laminas-validator/src'),
+    'Laminas\\Stdlib\\' => array($vendorDir . '/laminas/laminas-stdlib/src'),
+    'Laminas\\Session\\' => array($vendorDir . '/laminas/laminas-session/src'),
+    'Laminas\\ServiceManager\\' => array($vendorDir . '/laminas/laminas-servicemanager/src'),
+    'Laminas\\InputFilter\\' => array($vendorDir . '/laminas/laminas-inputfilter/src'),
+    'Laminas\\Hydrator\\' => array($vendorDir . '/laminas/laminas-hydrator/src'),
+    'Laminas\\Form\\' => array($vendorDir . '/laminas/laminas-form/src'),
+    'Laminas\\Filter\\' => array($vendorDir . '/laminas/laminas-filter/src'),
+    'Laminas\\EventManager\\' => array($vendorDir . '/laminas/laminas-eventmanager/src'),
+    'Dell14\\Sgta\\' => array($baseDir . '/src'),
 );

@@ -1,31 +1,6 @@
 var data_table;
 $(() => {
-  data_table = $("#dataTable").DataTable({
-    processing: true,
-    serverSide: false,
-    order: [],
-    ajax: {
-      url: "servicos/cms.php?action=fetchAllAluno",
-      type: "POST",
-      data: {},
-    },
-    oLanguage: {
-      sLengthMenu: "Mostrar _MENU_ Linhas por pagina",
-      sZeroRecords: "Nenhum Registro Encontrado!",
-      sInfo: "Mostrar _START_ de _END_ de _TOTAL_ linhas",
-      sInfoEmpty: "Mostrando 0 de 0 de 0 linhas",
-      sInfoFiltered: "(Filtro de _MAX_ total linhas)",
-      sSearch: "Procurar <i class='fa fa-search'></i>",
-      oPaginate: {
-        sFirst: "Primeiro", // This is the link to the first page
-        sPrevious: "<i class='fas fa-arrow-circle-left'></i> Anterior", // This is the link to the previous page
-        sNext: "Proximo <i class='fas fa-arrow-circle-right'></i>", // This is the link to the next page
-        sLast: "Ultimo", // This is the link to the last page
-      },
-    },
-    columnDefs: [{ orderable: false, targets: [0,0,2,0] }],
-  });
- 
+  fetchAllAluno();
  // Caregar turma e prencher no formulario quando a modal é aberta
 $('#insert_modal, #update_modal, #transferir_modal').on('shown.bs.modal', function (e) {
   loadSelectTurma();
@@ -89,15 +64,28 @@ function checkRegexp(tips, o, regexp, n) {
     return true;
   }
 }
-
+function fetchAllAluno(){
+  URL ="api/Aluno";  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var result=xmlhttp.responseText;
+  console.log(result);
+  var result_json = JSON.parse(result);
+  FillBodyTable(result_json);
+}
 
 function insert() {
-  var nome = $("#nome_aluno"),
-	  data_nasc = $("#data_nasc_aluno"),
-	  email = $("#email_aluno"),
-	  id_turma = $("#turma_aluno_insert"),
-    tips = $("#insert_state");
-  /* Adicionar outros parametros e verificar */
+
+  URL ="api/Aluno";  
+  var xmlhttp       = new XMLHttpRequest();
+  var nome          = $("#nome_aluno"),
+	    data_nasc     = $("#data_nasc_aluno"),
+	    email         = $("#email_aluno"),
+	    id_turma      = $("#turma_aluno_insert"),
+      tips          = $("#insert_state");
+  /*** Adicionar outros parametros e verificar ***/
   tips.removeClass("alert-danger").addClass("alert-light");
   if (nome.val() == "") {
     updateTips(tips, "Por favor peencha o Nome");
@@ -112,38 +100,35 @@ function insert() {
     updateTips(tips, "Por favor preencha a turma");
     id_turma.focus();
   } else {
-    
-      var formData = new FormData();
-	  formData.append("nome", nome.val());
-	  formData.append("data_nasc", data_nasc.val());
-	  formData.append("email", email.val());
-	  formData.append("id_turma", id_turma.val());
-	  tips.addClass("alert-light");
+    tips.addClass("alert-light");
 	  tips.html("<img src='img/loader.gif' />");
-	  $.ajax({
-		type: "POST",
-		url: "servicos/cms.php?action=insertAluno",
-		data: formData,
-		contentType: false,
-		processData: false,
-		cache: false,
-		success: function (data) {
-		  try {
-			var r = JSON.parse(data);
-			if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-			  tips.html("Registado com sucesso!");
-        data_table.ajax.reload();
-        fechar_modal("insert_modal");
-			  
-			  
-			} else {
-			  updateTips(tips, r.result);
-			}
-		  } catch (error) {
-			updateTips(tips, error);
-		  }
-		},
-	  });
+    xmlhttp.open("POST",URL, false);
+    xmlhttp.setRequestHeader("Content-Type","application/json");
+    tips.addClass("alert-light");
+    tips.html("<img src='img/loader.gif' />");
+    var ItemJSON=JSON.stringify({
+        nome          :   nome.val(),
+        data_nasc     :   data_nasc.val(),
+        email         :   email.val(),
+        id_turma      :   id_turma.val(),
+        });
+    
+    try{
+      // send json data to api
+      xmlhttp.send(ItemJSON);
+      var result=xmlhttp.responseText;
+      
+      var data_json = JSON.parse(result);
+      if(data_json.status==="success"){
+        tips.html("Registado com sucesso!");
+          fechar_modal("insert_modal");
+          fetchAllAluno();
+      }else{
+        updateTips(tips, data_json.dados);
+      }
+    }catch (error) {
+      updateTips(tips, error);
+    }
     
   }
 }
@@ -159,91 +144,100 @@ function update(aluno) {
   $("#email_aluno_update").val(aluno.email);
   $("#update_modal").modal("show");
   
+  
 }
 function transferir(id) {
 
  $("#id_aluno_tranferir_insert").val(id);
- 
+ $("#transferir_state").val("");
   $("#transferir_modal").modal("show");
 }
 
 function updateAsync() {
-  var id 		= $("#id_aluno_update").val(),
-    nome 		= $("#nome_aluno_update").val(),
-    data_nasc 	= $("#data_nasc_aluno_update").val(),
-    email 		= $("#email_aluno_update").val(),
-    id_turma 	= $("#turma_aluno_update").val(),
-	tips 		= $("#update_state");
-  var formData  = new FormData();
-  formData.append("id", id);
-  formData.append("nome", nome);
-  formData.append("data_nasc", data_nasc);
-  formData.append("email", email);
-  formData.append("id_turma", id_turma);
-  tips.addClass("alert-light");
-  tips.html("<img src='img/loader.gif' />");
-  $.ajax({
-    type: "POST",
-    url: "servicos/cms.php?action=updateAluno",
-    data: formData,
-    contentType: false,
-    processData: false,
-    cache: false,
-    success: function (data) {
-      try {
-        var r = JSON.parse(data);
-        if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-          tips.html("Alterado com sucesso!");
-          data_table.ajax.reload();
-          fechar_modal("update_modal");
+  URL ="api/Aluno";  
+  var xmlhttp       = new XMLHttpRequest();
+  var nome          = $("#nome_aluno_update"),
+	    data_nasc     = $("#data_nasc_aluno_update"),
+	    email         = $("#email_aluno_update"),
+	    id            = $("#id_aluno_update"),
+      tips          = $("#update_state");
+  /*** Adicionar outros parametros e verificar ***/
+  tips.removeClass("alert-danger").addClass("alert-light");
+  if (nome.val() == "") {
+    updateTips(tips, "Por favor peencha o Nome");
+    nome.focus();
+  } else if (data_nasc.val() == "") {
+    updateTips(tips, "Por favor preencha a data de nascimento");
+    data_nasc.focus();
+  } else if (email.val() == "") {
+    updateTips(tips, "Por favor preencha o email");
+    email.focus();
+  }  else {
+   
+    try{
+      tips.addClass("alert-light");
+      tips.html("<img src='img/loader.gif' />");
+      xmlhttp.open("PATCH",URL, false);
+      xmlhttp.setRequestHeader("Content-Type","application/json");
+      var ItemJSON=JSON.stringify({
+          nome          :   nome.val(),
+          data_nasc     :   data_nasc.val(),
+          email         :   email.val(),
+          id            :   id.val(),
+          });
+      
+      // send json data to api
+      xmlhttp.send(ItemJSON);
+      var result=xmlhttp.responseText;
+      var data_json = JSON.parse(result);
+      console.log(data_json);
+      if(data_json.status==="success"){
+        tips.html("Alterado com sucesso!");
+        fechar_modal("update_modal");
          
-        } else {
-          updateTips(tips, r.result);
-        }
-      } catch (error) {
-        updateTips(tips, error);
+          fetchAllAluno();
+      }else{
+        updateTips(tips, data_json.dados);
       }
-    },
-  });
+    }catch (error) {
+      updateTips(tips, error);
+    }
+    
+  }
 }
 
 function transferirAsync() {
-  var id_aluno		= $("#id_aluno_tranferir_insert").val(),
-    data 		= $("#data_transferir").val(),
-    motivo 	= $("#motivo_transferir").val(),
-    id_turma_destino 	= $("#turma_tranferir_insert").val(),
-	tips 		= $("#transferir_state");
-  var formData  = new FormData();
-  formData.append("id_aluno", id_aluno);
-  formData.append("data", data);
-  formData.append("motivo", motivo);
-  formData.append("id_turma_destino", id_turma_destino);
+
+  URL ="api/Transferencia";  
+  var xmlhttp=new XMLHttpRequest();
+  var tips 		= $("#transferir_state");
+  xmlhttp.open("POST",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
   tips.addClass("alert-light");
   tips.html("<img src='img/loader.gif' />");
-  $.ajax({
-    type: "POST",
-    url: "servicos/cms.php?action=insertTransferancia",
-    data: formData,
-    contentType: false,
-    processData: false,
-    cache: false,
-    success: function (data) {
-      try {
-        var r = JSON.parse(data);
-        if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-          tips.html("Transferido com sucesso!");
-          fechar_modal("transferir_modal");
-          clear_form();
-		  $('#aluno-transferir').trigger("reset");
-          data_table.ajax.reload();
-        } else {
-          updateTips(tips, r.result);
-        }
-      } catch (error) {
-        updateTips(tips, error);
-      }
-    },
+  var ItemJSON=JSON.stringify({
+    id_aluno          :   $("#id_aluno_tranferir_insert").val(),
+    id_turma_destino  :   $("#turma_tranferir_insert").val()
   });
+  xmlhttp.send(ItemJSON);
+  try{
+    var result=xmlhttp.responseText;
+    var data_json = JSON.parse(result);
+    console.log(data_json);
+    if(data_json.status==="success"){
+      tips.html("Transferido com sucesso!");
+            fechar_modal("transferir_modal");
+            clear_form();
+        $('#aluno-transferir').trigger("reset");
+        fetchAllAluno();
+    }else{
+      updateTips(tips, data_json.dados);
+    }
+  }catch (error) {
+    updateTips(tips, error);
+  }
+  
+
 }
 
 function remove(id) {
@@ -253,61 +247,79 @@ function remove(id) {
   $("#remove_modal").modal("show");
 }
 function removeAsync() {
+
+  URL ="api/Aluno"; 
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("DELETE",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  var ItemJSON=JSON.stringify({
+    id    :   $("#id_to_remove").val()
+    });
+    // Send request with json
+  xmlhttp.send(ItemJSON);
+  var result=xmlhttp.responseText;
+ 
   var tips = $("#remove_state");
   tips.addClass("alert-light");
   tips.html("<img src='img/loader.gif' />");
-  $.post(
-    "servicos/cms.php?action=removeAluno",
-    {
-      id: $("#id_to_remove").val(),
-    },
-    (data, status) => {
-      if (status == "success") {
-        try {
-          var r = JSON.parse(data);
-          if (parseInt(r.result) != NaN && parseInt(r.result) == 1) {
-            tips.html("Removido com sucesso!");
-            data_table.ajax.reload();
-            fechar_modal("remove_modal");
-            
-          } else {
-            updateTips(tips, r.result);
-          }
-        } catch (error) {
-          updateTips(tips, error);
-        }
-      } else {
-        updateTips(tips, data);
-      }
-    }
-  );
+  try{
+    var r = JSON.parse(result);
+    if(r.status==="success"){
+      tips.html("Removido com sucesso!");
+      fechar_modal("remove_modal");
+      fetchAllAluno();
+    }else{
+      updateTips(tips, r.dados);
+  }
+  }catch (error) {
+    updateTips(tips, error);
+  }
+
 }
 function loadSelectTurma() {
-	
-  $.post(
-    "servicos/cms.php?action=fetchAllTurmaToSelect",
-    {},
-    (data, status) => {
-      if (status == "success") {
-        try {
-          var r = JSON.parse(data),
-            itens = r.data,
-            html = "";
-          $.each(itens, (i, item) => {
-            html += "<option value='" + item[0] + "'>" + item[1] + "</option>";
-          });
-		 
-          $("#turma_aluno_insert").html(html);
-          $("#turma_aluno_update").html(html);
-          $("#turma_tranferir_insert").html(html);
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        console.log(data);
-      }
+  URL ="api/Turma";  
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",URL, false);
+  xmlhttp.setRequestHeader("Content-Type","application/json");
+  xmlhttp.send();
+  var html="";
+  var result=xmlhttp.responseText;
+  var data_json = JSON.parse(result);
+  if(data_json.status==="success"){
+    for(var i=0;i<data_json.dados.length;i++){
+      var turma=data_json.dados[i];
+      html += "<option value='" + data_json.dados[i]['id'] + "'>" + data_json.dados[i]['nome'] + "</option>";        
     }
-  );
+    $("#turma_aluno_insert").html(html);
+    $("#turma_aluno_update").html(html);
+    $("#turma_tranferir_insert").html(html);
+  }else{
+    html=data_json.dados;
+  }
+
+}
+// Create a Glabal function to list
+function FillBodyTable(data_json){
+  var html="";
+  if(data_json.status==="success"){
+    for(var i=0;i<data_json.dados.length;i++){
+      var aluno=data_json.dados[i];
+      html+="<tr>"+
+              "<td>"+data_json.dados[i]['nome']+"</td>"+
+              "<td>"+data_json.dados[i]['data_nasc']+"</td>"+
+              "<td>"+data_json.dados[i]['email']+"</td>"+
+              "<td>"+data_json.dados[i]['turma']+"</td>"+
+              "<td><div class='span12' style='text-align:center'><a href='javascript:transferir("+data_json.dados[i]['id']+")' class='btn btn-warning btn-sm'>Transferir</a></div></td>"+
+              "<td><div class='span12' style='text-align:center'><a href='javascript:update("+JSON.stringify(aluno)+")' class='btn btn-info'><i class='fas fa-edit'></i></a></div></td>"+
+              "<td><div class='span12' style='text-align:center'><a href='javascript:remove("+data_json.dados[i]['id']+")' class='btn btn-danger'><i class='far fa-trash-alt'></i></a></div></td>"+
+              "</tr>";
+    }
+    
+    
+  }else{
+    html=data_json.dados;
+  }
+  $("#dataTableBody").html(html);
 }
 // Reset all input form
 function clear_form() {

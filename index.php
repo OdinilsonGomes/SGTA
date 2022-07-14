@@ -1,107 +1,77 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>SGTA | Autenticação</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="../img/global/favicon.ico"/>
-    <!-- Bootstrap CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<?php
+//Iniciar Seção
+session_start();
+// Verify session 
+//require_once("cmp/session.php");
 
-	<!-- Font Awesome -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <!-- User Defined CSS -->
-    <link rel="stylesheet" href="css/login.css" />
-  </head>
-  <body class="text-center">
-    <div class="form-signin">
-      
-      <div class="card">
-      <div class="login-logo">
-        <img src="img/logo.jpg"  /> 
-        <h3>Sistema de Gerenciamento de Turma e Alunos</h3>
+//require_once("./vendor/autoload.php");
+// Geting url value 
+$url= isset($_REQUEST['url'])? $_REQUEST['url'] : 'main';
+// Converting url to array
+$url_array=explode('/',$url);
+// Getting last array position
+$url_end=end($url_array);
+//discorver extencion
+$extensao = substr($url_end, -4);	
+if($extensao==='.php'){
+    //Include main file
+   include 'main.php';
+}else {
+    // If exist url get url
+    $url = (isset($_GET['url'])) ? $_GET['url']:'main';
+	$url = (explode('/',$url));
+    if($url[0]=="api" && isset($url[1])){
+        array_shift($url);
+        // Geting Service form url
+        $service=$url[0].'Servico';
+       // Delete API value from array
+        array_shift($url);
+        $parameter=isset($url[0])? $url:null;
+        $method = strtolower($_SERVER['REQUEST_METHOD']);
+        // Verify if service is valible
+        if(is_file("_api/Services/$service.php")){
+            require_once "_api/Services/$service.php";
+            $service=new $service();
+            if(method_exists($service, $method) && have_access($parameter,$method)){
+                $operation= $service->$method($parameter);
+                //echo call_user_func_array(array(new $service, $method), $url);
+               
+                return $operation;
+            }elseif(!method_exists($service, $method)){
+                echo json_encode(array ('status'=>'405', 'dados'=>'Operação não disponivel para esse serviço'));
+            }else{
+                echo json_encode(array ('status'=>'405', 'dados'=>'Requer sessão aberta! '));
+            }
+            
+        }else{
+            echo json_encode(array ('status'=>'404', 'dados'=>'Serviço não encontrado'));
+        }
+        
          
-      </div>
-        <div class="card-body login-card-body">
-          <p class="login-box-msg">Autenticação do utilizador</p>
-          <form class="user">
-            <div class="input-group mb-4">
-              <input id="username_login" type="text" class="form-control" placeholder="Nome de utilizador">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-user"></span>
-                </div>
-              </div>
-            </div>
-            <div class="input-group mb-4">
-              <input id="password_login" type="password" class="form-control" placeholder="Palavra passe">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-lock"></span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12 " style="text-align:right;margin:5px;">
-                <a href="javascript:recoverShow()" >Esqueceu sua palavra passe? </a>
-              </div>
-              <!-- /.col -->
-              <div class="col-5">
-                <a href="javascript:login()" class="btn btn-success btn-user btn-block" tabindex="3">Autenticar</a>
-              </div>
-              <!-- /.col -->
-            </div>
-            <hr />
-            <div id="login_state" class="d-flex justify-content-center" role="alert">
-            </div>
-          </form>
-        </div>
-        <div class="card-body recover-card-body" style="display:none;">
-          <p class="login-box-msg">Recuperação de Conta</p>
-          <form class="user">
-            <div class="input-group mb-4">
-              <input id="username_login" type="text" class="form-control" placeholder="Email de recuperação">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-envelope"></span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12 " style="text-align:right;margin:5px;">
-                <a  href="javascript:loginShow()" >Autenticação</a>
-              </div>
-              <!-- /.col -->
-              <div class="col-5">
-                <a href="#" class="btn btn-success btn-user btn-block" tabindex="3">Recuperar</a>
-              </div>
-              <!-- /.col -->
-            </div>
-            <hr />
-            <div id="recover_state" class="d-flex justify-content-center" role="alert">
-            </div>
-          </form>
-        </div>
-     
-      </div>
-      
-     
-        
-     
-      <?php
-        require_once("cmp/footer.php");
-      ?>
-    </div>
-        
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!---  script src="https://code.jquery.com/jquery-3.5.1.min.js"></script -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <!-- script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script-->
-	<script rel="stylesheet" href="plugins/bootstrap/js/bootstrap.js"> </script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    }else{
+         // Convertting url to file default	
+         $file = $url[0].'.php';
+         // Existe file?
+         if(is_file($file)){
+             // Include file
+             include $file;
+         }else{
+            
+             // Else go to default page
+             include 'main.php';
+         }	
+    }
+	
+}
 
-    <!-- User Defined    JavaScript -->
-    <script src="js/login.js"></script>
-  </body>
-</html>
+function have_access($parameter,$method){
+    if(!isset($_SESSION['views']) && $parameter!="login" && $method!="post")
+    {
+        return false;
+    }else{
+
+        return true;
+    }
+}
+
+?>

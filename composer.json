@@ -1,16 +1,19 @@
 {
-    "name": "dell14/sgidoc",
-    "license": "MIT",
+    "name": "dell14/sgta",
+    "description": "Desafio Fullstack Developer",
     "autoload": {
         "psr-4": {
-            "Dell14\\Sgidoc\\": "src/"
+            "Dell14\\Sgta\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Odinilson Gomes",
+            "name": "odinilson",
             "email": "odinilsongomes4@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "laminas/laminas-session": "^2.12",
+        "laminas/laminas-form": "^3.2"
+    }
 }

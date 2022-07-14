@@ -6,15 +6,83 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitf30fc2166e36ae333f1926506368026f
 {
+    public static $files = array (
+        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'Webmozart\\Assert\\' => 17,
+        ),
+        'P' => 
+        array (
+            'Psr\\Container\\' => 14,
+        ),
+        'L' => 
+        array (
+            'Laminas\\Validator\\' => 18,
+            'Laminas\\Stdlib\\' => 15,
+            'Laminas\\Session\\' => 16,
+            'Laminas\\ServiceManager\\' => 23,
+            'Laminas\\InputFilter\\' => 20,
+            'Laminas\\Hydrator\\' => 17,
+            'Laminas\\Form\\' => 13,
+            'Laminas\\Filter\\' => 15,
+            'Laminas\\EventManager\\' => 21,
+        ),
         'D' => 
         array (
-            'Dell14\\Sgidoc\\' => 14,
+            'Dell14\\Sgta\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Dell14\\Sgidoc\\' => 
+        'Webmozart\\Assert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Laminas\\Validator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-validator/src',
+        ),
+        'Laminas\\Stdlib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-stdlib/src',
+        ),
+        'Laminas\\Session\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-session/src',
+        ),
+        'Laminas\\ServiceManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src',
+        ),
+        'Laminas\\InputFilter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-inputfilter/src',
+        ),
+        'Laminas\\Hydrator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-hydrator/src',
+        ),
+        'Laminas\\Form\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-form/src',
+        ),
+        'Laminas\\Filter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-filter/src',
+        ),
+        'Laminas\\EventManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-eventmanager/src',
+        ),
+        'Dell14\\Sgta\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),

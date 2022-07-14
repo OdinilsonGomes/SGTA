@@ -17,7 +17,9 @@
   <?php require_once("cmp/menu.php");?>
   
     <div class="container">
-      <div class="card-deck mb-3 text-left">
+
+    <h4>Em Desenvolvimento</h4>
+      <!-- div class="card-deck mb-3 text-left">
         <div class="card mb-4 box-shadow">
           <div class="card-header">
             <h4 class="my-0 font-weight-normal">Transferência</h4>
@@ -44,20 +46,17 @@
             </div>
           </div>
         </div>
-      </div>
+      </!-->
+    
       <?php
         require_once("cmp/footer.php");
 		     
-		require_once("cmp/modal_transferencia.php");
 
       ?>
     </div>
     <?php
       require_once("cmp/script.php");
     ?>
-    <!-- Summernote -->
-    <script src="plugins/summernote/summernote-bs4.min.js"></script>
-    <script src="js/summernote-config.js"></script>
-    <script src="js/transferencia.js"></script>
+   
   </body>
 </html>
