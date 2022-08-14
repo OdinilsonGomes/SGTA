@@ -11,7 +11,7 @@ require_once("inc/mysql_pdo.php");
             try {
 				// Criação de objecto para conectar MySQL atravez do PDO
                 $mysqlPDO = new MySQLPDO();
-                // Prepare query
+                // Prepare query 
                 $statement = $mysqlPDO->getConnection()->prepare($query);
                 // Executando o query
                 $statement->execute($parametr);
@@ -46,7 +46,7 @@ require_once("inc/mysql_pdo.php");
                         return json_encode(array ('status'=>'success','dados'=>'Operação realizada com sucesso'));
                     } else {
                         //var_dump ($statement->errorInfo());
-                        return json_encode(array ('status'=>'501', 'dados'=>'Não foi possivel realizar a operação'));
+                        return json_encode(array ('status'=>'501', 'dados'=>'Não foi possivel realizar a operação '));
                     }
             } catch (PDOException $e) {
                 return json_encode(array ('status'=>'500', 'dados'=>'Mensagem de erro '.$e));

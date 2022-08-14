@@ -159,7 +159,7 @@ require_once("SQL.php");
                               ";
                     $sql = new SQL();
                     $result = json_decode($sql->SQLSelect($query,$check_data));
-                    if($result->status=="sucess")
+                    if($result->status=="sucess") 
                     {
                         $result= json_encode(array ('status'=>'406', 'dados'=>'Aluno com esse email ja existe'));
                         
@@ -216,9 +216,8 @@ require_once("SQL.php");
                     );
                     // Check for existent object with the same name in Database
                     $query = "SELECT id 
-                                FROM aluno 
-                                WHERE id_estado=1 AND email = :email
-                              ";
+                                FROM aluno a
+                                WHERE a.id_estado=1 AND a.email = :email";
                     $sql = new SQL();
                     $result = json_decode($sql->SQLSelect($query,$check_data));
                     if($result->status=="sucess")

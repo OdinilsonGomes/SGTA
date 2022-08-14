@@ -19,6 +19,10 @@
             $this->database = "sgta";
             $this->username = "sgta";
             $this->password = "sgta2022";
+			$this->hostname = "127.0.0.1";
+            $this->database = "sgta";
+            $this->username = "root";
+            $this->password = "";
             $this->database_connection();
         }
         /* This function create an mysql database connection */

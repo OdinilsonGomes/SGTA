@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 //Iniciar Seção
 session_start();
 // Verify session 
@@ -65,13 +66,14 @@ if($extensao==='.php'){
 }
 
 function have_access($parameter,$method){
-    if(!isset($_SESSION['views']) && $parameter!="login" && $method!="post")
+   /* if(!isset($_SESSION['views']) && $parameter!="login" && $method!="post")
     {
         return false;
     }else{
 
         return true;
-    }
+    }*/
+	return true;
 }
 
 ?>
