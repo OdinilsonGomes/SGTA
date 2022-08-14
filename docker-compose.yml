@@ -1,22 +1,46 @@
-php:
-  images: php:7.4-apache
-  container_name: Container_SGTA_PHP
-  ports:
-    -"80:80"
-    -"443:443"
-  volumes: 
-    - C:\xampp\htdocs\SGTA:Exercice_project
-  links:
-    - db 
+version: '3.8'
+services:
+  db:
+    image: mysql:7.4
+    restart: always
+    container_name: Container_SGTA_MYSQL
+    ports:
+      - ${MYSQL_HOST_PORT}:3306
+    volumes:
+      - ${MYSQL_HOST_DATA_DIR}:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+  php:
+    build:
+      context: ./kuau-pv-backend
+    container_name: Container_SGTA_PHP
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ${API_CODE_PATH_HOST}:/var/www
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=${MYSQL_HOST}
+      - DB_PORT=3306
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_NAME=${MYSQL_DATABASE}
+  nginx:
+    ports:
+      - ${API_HOST_PORT}:80
+    volumes:
+      - ${API_CODE_PATH_HOST}:/var/www
+    depends_on:
+      - php
+    networks:
+      - backend
+      - frontend
+    environment:
+      - API_SERVER_NAME=localhost
+      - API_SERVER_ALIAS=127.0.0.1
+      - API_PORT=80
+      - AUTO_GENERATE_PROXIES=true
 
-db: 
-  images: mysql:7.4
-  container_name: Container_SGTA_MYSQL
-  ports:
-    - "3306:3306"
-  volumes:
-    - /var/lib/mysql
-  enviroment:
-   - MYSQL_ROOT_PASSWORD=root
-
-   
+  
