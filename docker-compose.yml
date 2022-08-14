@@ -18,3 +18,5 @@ db:
     - /var/lib/mysql
   enviroment:
    - MYSQL_ROOT_PASSWORD=root
+
+   
