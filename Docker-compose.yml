@@ -7,7 +7,7 @@ php:
   volumes:
     - C:\xampp\htdocs\SGTA:Exercice_project
   links:
-    - db
+    - db 
 
 db: 
   images: mysql:7.4
