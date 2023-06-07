@@ -6,7 +6,6 @@ https://github.com/OdinilsonGomes/SGTA.git
  usuario: odinilson<br>
  senha: 123<br>
  API DOC: https://documenter.getpostman.com/view/12219150/UzQuPknh
- 
 #JWT
 JWT_ACCESS_SECRET=Z2qs/cknBTFso6Eba4wdniRhuipgbepaJNvvnAnbTFMtl9ggtEgn7CQQCvRXy3YfeTQjYhfOt6T9zQr/omAP/DVsivVLoAKEfyUSNfaz9o+JERu/rvkZ4ZBtc+rCX9kJRK0lH/31889ZOxpmJzbrCJY/MwU2HS7Qj8/u6NB074eY9GJR0QI1CAyCnqYYhbQWjgU20FFjizAUUfTdq+unfhJttNAoK5VagVWUYbZAC0gQcyG6qRSCR8gjU35ygW0YXySqlb/u6ODHP+OFGX9tvQW7YIplYPvY8WIwjJGMkpUXohBSsdJxbBq7CwMzs1shCjrl+SgjBJog3Rs0CKO6RQ==
 JWT_REFRESH_SECRET=n98ShY3TEN3CncgX57dzNrReBRzxc0cfuKbcKZe8/34ZUeXjsA4b2glp4d/0nmOB3l+CBabbdMiK+6A85G6l08gMD3PBvsBPGT8GkIiNz88KhiUWoUliGEq4kANuEyPaz+6+H6K+i86SMjbC8H8ADD5/vpQ3Gh6q6Mj/XTZJuyNFMR62Qf+mIDcYX9/bycCLK/XeW/0AqP7TGiHr40ejUDfeTjJcsV2FEaKHnONmpHYk6raRzOl5+AVTx54RsopVXxJDyxShdIxvY+vBEgQsPBFf17OW85IEELHYACue1Zc0U3RNEjyTQ7Slqh4k7QvuvWoHDswxwEbqzC3gza7pHA==
